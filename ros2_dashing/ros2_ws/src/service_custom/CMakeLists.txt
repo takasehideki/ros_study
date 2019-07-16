@@ -18,6 +18,15 @@ endif()
 # find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+set(srv_files
+  "srv/Human.srv"
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${srv_files}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
