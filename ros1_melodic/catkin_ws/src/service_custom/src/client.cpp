@@ -27,7 +27,18 @@
 
 // %Tag(FULLTEXT)%
 #include "ros/ros.h"
-#include "service_custom/Human.h"
+#include "pubsub_custom/Human.h"
+
+/**
+ * This tutorial demonstrates simple receipt of messages over the ROS system.
+ */
+// %Tag(CALLBACK)%
+void chatterCallback(const pubsub_custom::Human msg)
+{
+  float bmi = msg.weight / (msg.height/100.0) / (msg.height/100.0);
+  ROS_INFO("[%02d] %s's BMI is %.2f", msg.id, msg.name.c_str(), bmi);
+}
+// %EndTag(CALLBACK)%
 
 int main(int argc, char **argv)
 {
@@ -41,13 +52,7 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  ros::init(argc, argv, "bmi_client");
-
-  if (argc != 4)
-  {
-    ROS_INFO("usage: bmi_clinent [Name(str)] [Height(uint/cm)] [Weight(float/kg)]");
-    return 1;
-  }
+  ros::init(argc, argv, "bmi_listener");
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.
@@ -57,26 +62,32 @@ int main(int argc, char **argv)
   ros::NodeHandle n;
 
   /**
-   * The ServiceClient() call
+   * The subscribe() call is how you tell ROS that you want to receive messages
+   * on a given topic.  This invokes a call to the ROS
+   * master node, which keeps a registry of who is publishing and who
+   * is subscribing.  Messages are passed to a callback function, here
+   * called chatterCallback.  subscribe() returns a Subscriber object that you
+   * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
+   * object go out of scope, this callback will automatically be unsubscribed from
+   * this topic.
+   *
+   * The second parameter to the subscribe() function is the size of the message
+   * queue.  If messages are arriving faster than they are being processed, this
+   * is the number of messages that will be buffered up before beginning to throw
+   * away the oldest ones.
    */
-// %Tag(SERVICECLIENT)%
-  ros::ServiceClient client = n.serviceClient<service_custom::Human>("human_info");
-// %EndTag(SERVICECLIENT)%
+// %Tag(SUBSCRIBER)%
+  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
+// %EndTag(SUBSCRIBER)%
 
-  service_custom::Human srv;
-  srv.request.name = argv[1];
-  srv.request.height = atoi(argv[2]);
-  srv.request.weight = atof(argv[3]);
-
-  if (client.call(srv))
-  {
-    ROS_INFO("%s's BMI is %.2f", srv.request.name.c_str(), srv.response.bmi);
-  }
-  else
-  {
-    ROS_ERROR("Failed to call service human_info.");
-    return 1;
-  }
+  /**
+   * ros::spin() will enter a loop, pumping callbacks.  With this version, all
+   * callbacks will be called from within this thread (the main one).  ros::spin()
+   * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
+   */
+// %Tag(SPIN)%
+  ros::spin();
+// %EndTag(SPIN)%
 
   return 0;
 }
