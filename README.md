@@ -20,3 +20,4 @@ $ git clone https://github.com/takasehideki/ros_study
 - `2`: 「2. ROSの基本的な仕組み」実習の[ソースコード等](./ros1_melodic)
   - `2-1`: ワークスペースの設定
   - `2-2`: pubsub_topicパッケージの作成
+  - `2-3`: pubsub_topicパッケージの実装
