@@ -19,6 +19,7 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
+find_package(service_custom REQUIRED)
 
 set(srv_files
   "srv/Human.srv"
@@ -29,6 +30,17 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 
 ament_export_dependencies(rosidl_default_runtime)
+
+add_executable(bmi_server src/server.cpp)
+ament_target_dependencies(bmi_server rclcpp service_custom)
+add_executable(bmi_client src/client.cpp)
+ament_target_dependencies(bmi_client rclcpp service_custom)
+
+install(TARGETS
+  bmi_server
+  bmi_client
+  DESTINATION lib/${PROJECT_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
