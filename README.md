@@ -17,3 +17,4 @@ $ git clone https://github.com/takasehideki/ros_study
   - 講習会用の環境構築の手引きです
   - 詳細は[install/README.md](./install/README.md)をご覧ください
 
+- `2`: 「2. ROSの基本的な仕組み」実習の[ソースコード等](./ros1_melodic)
