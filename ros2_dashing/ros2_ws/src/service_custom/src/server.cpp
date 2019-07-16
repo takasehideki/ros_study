@@ -30,7 +30,7 @@
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
 #include "service_custom/srv/human.hpp"
-// %EndTag(MSG_HEADER)%aa
+// %EndTag(MSG_HEADER)%
 
 rclcpp::Node::SharedPtr n = nullptr;
 
