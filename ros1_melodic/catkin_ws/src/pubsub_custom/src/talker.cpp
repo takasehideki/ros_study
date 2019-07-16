@@ -109,11 +109,12 @@ int main(int argc, char **argv)
     cin >> msg.height;
     cout << "Enter Weight [float/kg]: " << endl;
     cin >> msg.weight;
+    msg.id = count;
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
     ROS_INFO("[%02d] name: %s height: %d weight: %.2f", 
-      count, msg.name.c_str(), msg.height, msg.weight);
+      msg.id, msg.name.c_str(), msg.height, msg.weight);
 // %EndTag(ROSCONSOLE)%
 
     /**

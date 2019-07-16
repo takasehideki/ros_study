@@ -36,7 +36,7 @@
 void chatterCallback(const pubsub_custom::Human msg)
 {
   float bmi = msg.weight / (msg.height/100.0) / (msg.height/100.0);
-  ROS_INFO("%s's BMI is %.2f", msg.name.c_str(), bmi);
+  ROS_INFO("[%02d] %s's BMI is %.2f", msg.id, msg.name.c_str(), bmi);
 }
 // %EndTag(CALLBACK)%
 
