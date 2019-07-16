@@ -29,10 +29,11 @@
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "std_msgs/msg/string.hpp"
+#include "pubsub_custom/msg/human.hpp"
 // %EndTag(MSG_HEADER)%
 
 #include <iostream>
+using namespace std;
 #include <chrono>
 using namespace std::chrono_literals;
 
@@ -61,7 +62,7 @@ int main(int argc, char **argv)
    * NodeHandle destructed will close down the node.
    */
 // %Tag(NODEHANDLE)%
-  auto n = rclcpp::Node::make_shared("talker");
+  auto n = rclcpp::Node::make_shared("bmi_talker");
 // %EndTag(NODEHANDLE)%
 
   /**
@@ -82,7 +83,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+  auto chatter_pub = n->create_publisher<pubsub_custom::msg::Human>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -102,15 +103,19 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    std_msgs::msg::String msg;
+    pubsub_custom::msg::Human msg;
 
-    std::stringstream ss;
-    ss << "hello world " << count;
-    msg.data = ss.str();
+    cout << "Enter Name [str]: " <<endl;
+    cin >> msg.name;
+    cout << "Enter Height [int/cm]: " <<endl;
+    cin >> msg.height;
+    cout << "Enter Weight [float/kg]: " <<endl;
+    cin >> msg.weight;
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
-    RCLCPP_INFO(n->get_logger(), "%s", msg.data.c_str());
+    RCLCPP_INFO(n->get_logger(), "[%02d] name: %s height: %d weight: %.2f",
+      count, msg.name.c_str(), msg.height, msg.weight);
 // %EndTag(ROSCONSOLE)%
 
     /**
