@@ -10,7 +10,6 @@ project(service_custom)
 find_package(catkin REQUIRED COMPONENTS
   genmsg
   roscpp
-  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -69,7 +68,6 @@ add_service_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
-  std_msgs
 )
 
 ################################################
@@ -104,7 +102,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES service_custom
-#  CATKIN_DEPENDS genmsg roscpp std_msgs
+#  CATKIN_DEPENDS genmsg roscpp
 #  DEPENDS system_lib
 )
 
@@ -182,10 +180,11 @@ target_link_libraries(bmi_client ${catkin_LIBRARIES})
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-install(FILES
-  launch/server_client.launch
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/launch
-)
+# install(FILES
+#   # myfile1
+#   # myfile2
+#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+# )
 
 #############
 ## Testing ##
