@@ -27,16 +27,15 @@
 
 // %Tag(FULLTEXT)%
 #include "ros/ros.h"
-#include "pubsub_custom/Human.h"
+#include "std_msgs/String.h"
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 // %Tag(CALLBACK)%
-void chatterCallback(const pubsub_custom::Human msg)
+void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-  float bmi = msg.weight / (msg.height/100.0) / (msg.height/100.0);
-  ROS_INFO("[%02d] %s's BMI is %.2f", msg.id, msg.name.c_str(), bmi);
+  ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
 // %EndTag(CALLBACK)%
 
@@ -52,7 +51,7 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  ros::init(argc, argv, "bmi_listener");
+  ros::init(argc, argv, "listener");
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.

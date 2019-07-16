@@ -29,11 +29,10 @@
 #include "ros/ros.h"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "pubsub_custom/Human.h"
+#include "std_msgs/String.h"
 // %EndTag(MSG_HEADER)%
 
-#include <iostream>
-using namespace std;
+#include <sstream>
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -51,7 +50,7 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
 // %Tag(INIT)%
-  ros::init(argc, argv, "bmi_talker");
+  ros::init(argc, argv, "talker");
 // %EndTag(INIT)%
 
   /**
@@ -81,7 +80,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  ros::Publisher chatter_pub = n.advertise<pubsub_custom::Human>("chatter", 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -101,20 +100,15 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    pubsub_custom::Human msg;
+    std_msgs::String msg;
 
-    cout << "Enter Name [str]: " << endl;
-    cin >> msg.name;
-    cout << "Enter Height [int/cm]: " << endl;
-    cin >> msg.height;
-    cout << "Enter Weight [float/kg]: " << endl;
-    cin >> msg.weight;
-    msg.id = count;
+    std::stringstream ss;
+    ss << "hello world " << count;
+    msg.data = ss.str();
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
-    ROS_INFO("[%02d] name: %s height: %d weight: %.2f", 
-      msg.id, msg.name.c_str(), msg.height, msg.weight);
+    ROS_INFO("%s", msg.data.c_str());
 // %EndTag(ROSCONSOLE)%
 
     /**
