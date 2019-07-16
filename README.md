@@ -28,3 +28,5 @@ $ git clone https://github.com/takasehideki/ros_study
   - `2-8`: service_customパッケージの実装
   - `2-9`: service_customのroslaunch実行
   - `2-p`: pubsub_topic_pyパッケージ（Python実装）
+
+- `4`: 「4. ROS 2によるプログラミング」実習の[ソースコード等](./ros2_dashing)
