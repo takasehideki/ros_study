@@ -29,15 +29,16 @@
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "service_custom/srv/human.hpp"
+//#include "service_custom/srv/human.hpp"
+#include "ros_study_types/srv/human.hpp"
 // %EndTag(MSG_HEADER)%
 
 rclcpp::Node::SharedPtr n = nullptr;
 
 void calc_bmi(
   const std::shared_ptr<rmw_request_id_t> req_header,
-  const std::shared_ptr<service_custom::srv::Human::Request>  req,
-  const std::shared_ptr<service_custom::srv::Human::Response> res)
+  const std::shared_ptr<ros_study_types::srv::Human::Request>  req,
+  const std::shared_ptr<ros_study_types::srv::Human::Response> res)
 {
   (void)req_header;
   res->bmi = req->weight / (req->height/100.0) / (req->height/100.0);
@@ -78,7 +79,7 @@ int main(int argc, char **argv)
    * The advertiseService() function
    */
 // %Tag(SERVICESERVER)%
-  auto service = n->create_service<service_custom::srv::Human>("human_info", calc_bmi);
+  auto service = n->create_service<ros_study_types::srv::Human>("human_info", calc_bmi);
 // %EndTag(SERVICESERVER)%
 
   RCLCPP_INFO(n->get_logger(), "Ready to calc human's BMI.");
