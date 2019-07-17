@@ -19,6 +19,17 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
+find_package(rosidl_default_generators REQUIRED)
+
+set(action_files
+  "action/Fibonacci.action"
+)
+
+rosidl_generate_interfaces(${PROJECT_NAME}
+  ${action_files}
+)
+
+ament_export_dependencies(rosidl_default_runtime)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
