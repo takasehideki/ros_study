@@ -50,17 +50,13 @@ int main(int argc, char **argv)
   rclcpp::init(argc, argv);
 // %EndTag(INIT)%
 
-  /**
-   * NodeHandle is the main access point to communications with the ROS system.
-   * The first NodeHandle constructed will fully initialize this node, and the last
-   * NodeHandle destructed will close down the node.
-   */
-// %Tag(NODEHANDLE)%
-  auto n = std::make_shared<pubsub_component::Talker>();
-// %EndTag(NODEHANDLE)%
+  rclcpp::executors::SingleThreadedExecutor exec;
+
+  auto talker = std::make_shared<pubsub_component::Talker>();
+  exec.add_node(talker);
 
 // %Tag(SPIN)%
-  rclcpp::spin(n);
+  exec.spin();
 // %EndTag(SPIN)%
 
   rclcpp::shutdown();

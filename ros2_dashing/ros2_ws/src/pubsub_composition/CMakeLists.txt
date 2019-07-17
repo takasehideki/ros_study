@@ -20,6 +20,17 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(pubsub_component REQUIRED)
 
+add_executable(talker_comp src/talker.cpp)
+ament_target_dependencies(talker_comp
+  rclcpp
+  pubsub_component
+)
+
+install(TARGETS
+  talker_comp
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
