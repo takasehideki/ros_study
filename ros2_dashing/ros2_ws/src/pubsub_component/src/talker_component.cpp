@@ -28,42 +28,20 @@
 // %Tag(ROS_HEADER)%
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
-// %Tag(MSG_HEADER)%
-#include "std_msgs/msg/string.hpp"
-// %EndTag(MSG_HEADER)%
+
+#include "pubsub_component/talker_component.hpp"
+#include "class_loader/register_macro.hpp"
 
 #include <iostream>
 #include <chrono>
 using namespace std::chrono_literals;
 
-/**
- * This tutorial demonstrates simple sending of messages over the ROS system.
- */
-int main(int argc, char **argv)
+namespace pubsub_component
 {
-  /**
-   * The ros::init() function needs to see argc and argv so that it can perform
-   * any ROS arguments and name remapping that were provided at the command line.
-   * For programmatic remappings you can use a different version of init() which takes
-   * remappings directly, but for most command-line programs, passing argc and argv is
-   * the easiest way to do it.  The third argument to init() is the name of the node.
-   *
-   * You must call one of the versions of ros::init() before using any other
-   * part of the ROS system.
-   */
-// %Tag(INIT)%
-  rclcpp::init(argc, argv);
-// %EndTag(INIT)%
 
-  /**
-   * NodeHandle is the main access point to communications with the ROS system.
-   * The first NodeHandle constructed will fully initialize this node, and the last
-   * NodeHandle destructed will close down the node.
-   */
-// %Tag(NODEHANDLE)%
-  auto n = rclcpp::Node::make_shared("talker");
-// %EndTag(NODEHANDLE)%
-
+Talker::Talker()
+: Node("talker")
+{
   /**
    * The advertise() function is how you tell ROS that you want to
    * publish on a given topic name. This invokes a call to the ROS
@@ -82,7 +60,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+  chatter_pub = create_publisher<std_msgs::msg::String>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -110,7 +88,7 @@ int main(int argc, char **argv)
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
-    RCLCPP_INFO(n->get_logger(), "%s", msg.data.c_str());
+    RCLCPP_INFO(this->get_logger(), "%s", msg.data.c_str());
 // %EndTag(ROSCONSOLE)%
 
     /**
@@ -123,17 +101,13 @@ int main(int argc, char **argv)
     chatter_pub->publish(msg);
 // %EndTag(PUBLISH)%
 
-// %Tag(SPINONCE)%
-    rclcpp::spin_some(n);
-// %EndTag(SPINONCE)%
-
 // %Tag(RATE_SLEEP)%
     loop_rate.sleep();
 // %EndTag(RATE_SLEEP)%
     ++count;
   }
 
-  rclcpp::shutdown();
-  return 0;
 }
+
+} // namespace pubsub_component
 // %EndTag(FULLTEXT)%

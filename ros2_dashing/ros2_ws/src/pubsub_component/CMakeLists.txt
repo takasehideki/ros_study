@@ -21,6 +21,41 @@ find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 find_package(class_loader REQUIRED)
 
+include_directories(include)
+
+add_library(talker_component SHARED src/talker_component.cpp)
+
+target_compile_definitions(talker_component PRIVATE "TALKER_BUILDING_DLL")
+
+ament_target_dependencies(talker_component
+  rclcpp
+  std_msgs
+  class_loader
+)
+
+add_executable(talker src/talker.cpp)
+target_link_libraries(talker talker_component)
+ament_target_dependencies(talker rclcpp std_msgs)
+
+ament_export_libraries(displayer_component)
+
+install(DIRECTORY
+  include/pubsub_component
+  DESTINATION include
+)
+
+install(TARGETS
+  talker_component
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION bin
+)
+
+install(TARGETS
+  talker
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
