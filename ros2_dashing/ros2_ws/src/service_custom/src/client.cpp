@@ -27,7 +27,8 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-#include "service_custom/srv/human.hpp"
+//#include "service_custom/srv/human.hpp"
+#include "ros_study_types/srv/human.hpp"
 #include <chrono>
 using namespace std::chrono_literals;
 
@@ -62,7 +63,7 @@ int main(int argc, char **argv)
    * The ServiceClient() call
    */
 // %Tag(SERVICECLIENT)%
-  auto client = n->create_client<service_custom::srv::Human>("human_info");
+  auto client = n->create_client<ros_study_types::srv::Human>("human_info");
 // %EndTag(SERVICECLIENT)%
 
   while (!client->wait_for_service(1s)) {
@@ -73,7 +74,7 @@ int main(int argc, char **argv)
     RCLCPP_INFO(n->get_logger(), "waiting for service to appear...");
   }
 
-  auto request = std::make_shared<service_custom::srv::Human::Request>();
+  auto request = std::make_shared<ros_study_types::srv::Human::Request>();
   request->name = argv[1];
   request->height = atoi(argv[2]);
   request->weight = atof(argv[3]);

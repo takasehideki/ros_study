@@ -19,27 +19,28 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
-find_package(rosidl_default_generators REQUIRED)
-find_package(action_custom REQUIRED)
-
-set(action_files
-  "action/Fibonacci.action"
-)
-
-rosidl_generate_interfaces(${PROJECT_NAME}
-  ${action_files}
-)
-
-ament_export_dependencies(rosidl_default_runtime)
+find_package(ros_study_types REQUIRED)
+#find_package(rosidl_default_generators REQUIRED)
+#find_package(action_custom REQUIRED)
+#
+#set(action_files
+#  "action/Fibonacci.action"
+#)
+#
+#rosidl_generate_interfaces(${PROJECT_NAME}
+#  ${action_files}
+#)
+#
+#ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(server src/server.cpp)
-ament_target_dependencies(server rclcpp rclcpp_action action_custom)
+ament_target_dependencies(server rclcpp rclcpp_action ros_study_types)
 add_executable(client src/client.cpp)
-ament_target_dependencies(client rclcpp rclcpp_action action_custom)
+ament_target_dependencies(client rclcpp rclcpp_action ros_study_types)
 add_executable(client_with_feedback src/client_with_feedback.cpp)
-ament_target_dependencies(client_with_feedback rclcpp rclcpp_action action_custom)
+ament_target_dependencies(client_with_feedback rclcpp rclcpp_action ros_study_types)
 add_executable(client_with_cancel src/client_with_cancel.cpp)
-ament_target_dependencies(client_with_cancel rclcpp rclcpp_action action_custom)
+ament_target_dependencies(client_with_cancel rclcpp rclcpp_action ros_study_types)
 
 install(TARGETS
   server

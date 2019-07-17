@@ -14,12 +14,13 @@
 
 #include <inttypes.h>
 #include <memory>
-#include "action_custom/action/fibonacci.hpp"
+//#include "action_custom/action/fibonacci.hpp"
+#include "ros_study_types/action/fibonacci.hpp"
 #include "rclcpp/rclcpp.hpp"
 // TODO(jacobperron): Remove this once it is included as part of 'rclcpp.hpp'
 #include "rclcpp_action/rclcpp_action.hpp"
 
-using Fibonacci = action_custom::action::Fibonacci;
+using Fibonacci = ros_study_types::action::Fibonacci;
 rclcpp::Node::SharedPtr g_node = nullptr;
 
 

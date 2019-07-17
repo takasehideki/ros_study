@@ -29,7 +29,8 @@
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "pubsub_custom/msg/human.hpp"
+//#include "pubsub_custom/msg/human.hpp"
+#include "ros_study_types/msg/human.hpp"
 // %EndTag(MSG_HEADER)%
 
 #include <iostream>
@@ -83,7 +84,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<pubsub_custom::msg::Human>("chatter", 1000);
+  auto chatter_pub = n->create_publisher<ros_study_types::msg::Human>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -103,7 +104,7 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    pubsub_custom::msg::Human msg;
+    ros_study_types::msg::Human msg;
 
     cout << "Enter Name [str]: " <<endl;
     cin >> msg.name;
