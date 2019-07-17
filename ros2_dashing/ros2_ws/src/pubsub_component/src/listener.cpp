@@ -27,19 +27,8 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
 
-rclcpp::Node::SharedPtr n = nullptr;
-
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
-// %Tag(CALLBACK)%
-void chatterCallback(const std_msgs::msg::String::SharedPtr msg)
-{
-  RCLCPP_INFO(n->get_logger(), "I heard: [%s]", msg->data.c_str());
-}
-// %EndTag(CALLBACK)%
+#include "pubsub_component/listener_component.hpp"
 
 int main(int argc, char **argv)
 {
@@ -60,26 +49,7 @@ int main(int argc, char **argv)
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  n = rclcpp::Node::make_shared("listener");
-
-  /**
-   * The subscribe() call is how you tell ROS that you want to receive messages
-   * on a given topic.  This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing.  Messages are passed to a callback function, here
-   * called chatterCallback.  subscribe() returns a Subscriber object that you
-   * must hold on to until you want to unsubscribe.  When all copies of the Subscriber
-   * object go out of scope, this callback will automatically be unsubscribed from
-   * this topic.
-   *
-   * The second parameter to the subscribe() function is the size of the message
-   * queue.  If messages are arriving faster than they are being processed, this
-   * is the number of messages that will be buffered up before beginning to throw
-   * away the oldest ones.
-   */
-// %Tag(SUBSCRIBER)%
-  auto sub = n->create_subscription<std_msgs::msg::String>("chatter", 1000, chatterCallback);
-// %EndTag(SUBSCRIBER)%
+  auto n = std::make_shared<pubsub_component::Listener>();
 
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
@@ -91,8 +61,6 @@ int main(int argc, char **argv)
 // %EndTag(SPIN)%
 
   rclcpp::shutdown();
-  sub = nullptr;
-  n = nullptr;
   return 0;
 }
 // %EndTag(FULLTEXT)%
