@@ -4,6 +4,7 @@
 必要に応じてご利用ください．
 
 ```bash
+$ cd ros_study
 $ cp -R install/dotfiles/.* ~
 $ source ~/.bashrc
 ```
