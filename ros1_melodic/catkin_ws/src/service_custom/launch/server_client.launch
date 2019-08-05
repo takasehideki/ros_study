@@ -1,4 +1,0 @@
-<launch>
-  <node pkg="service_custom" name="bmi_server" type="bmi_server" output="screen" />
-  <node pkg="service_custom" name="bmi_client1" type="bmi_client" output="screen" args="$(arg c1n) $(arg c1h) $(arg c1w)" />
-</launch>
