@@ -24,18 +24,8 @@ set(msg_files
   "msg/Human.msg"
 )
 
-set(srv_files
-  "srv/Human.srv"
-)
-
-set(action_files
-  "action/Fibonacci.action"
-)
-
 rosidl_generate_interfaces(${PROJECT_NAME}
   ${msg_files}
-  ${srv_files}
-  ${action_files}
 )
 
 ament_export_dependencies(rosidl_default_runtime)
