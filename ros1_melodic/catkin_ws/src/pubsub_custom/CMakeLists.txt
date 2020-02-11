@@ -8,8 +8,9 @@ project(pubsub_custom)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  genmsg
+  message_generation
   roscpp
+  std_msgs
 )
 
 ## System dependencies are found with CMake's conventions
@@ -68,6 +69,7 @@ add_message_files(
 ## Generate added messages and services with any dependencies listed here
 generate_messages(
   DEPENDENCIES
+  std_msgs
 )
 
 ################################################
@@ -102,7 +104,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES pubsub_custom
-#  CATKIN_DEPENDS genmsg roscpp
+#  CATKIN_DEPENDS message_generation roscpp std_msgs
 #  DEPENDS system_lib
 )
 
@@ -133,6 +135,8 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/pubsub_custom_node.cpp)
 add_executable(bmi_talker src/talker.cpp)
 add_executable(bmi_listener src/listener.cpp)
+add_dependencies(bmi_talker ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(bmi_listener ${PROJECT_NAME}_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
