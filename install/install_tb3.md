@@ -47,7 +47,7 @@ $ sudo apt install ros-dashing-test-msgs
 $ sudo apt install ros-dashing-tf2-sensor-msgs
 ```
 
-TurtleBot3実機との時刻同期の設定を行います．
+TurtleBot3実機との時刻同期のためのNTPをインストールして設定します．
 
 ```bash
 $ sudo apt-get install ntpdate
