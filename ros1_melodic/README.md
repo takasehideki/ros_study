@@ -4,3 +4,4 @@
 - `2-2`: pubsub_topicパッケージの作成
 - `2-3`: pubsub_topicパッケージの実装
 - `2-4`: 独自型ファイルの定義
+- `2-5`: pubsub_customパッケージの実装
