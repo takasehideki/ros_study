@@ -26,7 +26,7 @@ ROS 2用のDebian Packagesをインストールするための設定，gpg鍵の
 
 ```bash
 $ sudo apt update && sudo apt install curl gnupg2 lsb-release
-$ curl http://repo.ros2.org/repos.key | sudo apt-key add -
+$ curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
 ```
 
 ROS 2パッケージをインストールできるように`sources.list`を設定します．
@@ -96,8 +96,8 @@ $ sudo apt install python3-argcomplete
 
 ## 環境設定（非推奨）
 
-公式ページでの解説では，ここでROSの環境変数を.bashrcに追加することが推奨されています．しかし，複数のROS Distribution，特にROS 2とROS 1を同一PCで使い分けする際には，本項目を設定させることは避けたほうがよいです．
-ひとまず環境設定の方法は記載しておきます．
+公式ページでの解説では，ここでROSの環境変数を.bashrcに追加することが推奨されています．しかし，複数のROS Distribution，特にROS 2とROS 1を同一PCで使い分けする際には，本項目を設定させることは避けたほうがよいです．  
+本実習では `ros2setup` というalias関数を [.bashrc](./dotfiles/.bashrc) に設けてあります．ひとま公式ページで紹介されている環境設定の方法は記載しておきます．
 
 ```bash
 $ echo "source /opt/ros/dashing/setup.bash" >> ~/.bashrc
@@ -109,7 +109,7 @@ $ source ~/.bashrc
 下記のコマンドを実行してエラー無く動作できれば，ROS 2の導入は問題なく完了しています．
 
 ```bash
-$ source /opt/ros/dashing/setup.bash
+$ ros2setup
 $ ros2 run demo_nodes_cpp talker
 ```
 
