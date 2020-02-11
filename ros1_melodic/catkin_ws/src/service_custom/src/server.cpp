@@ -29,11 +29,18 @@
 #include "ros/ros.h"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "pubsub_custom/Human.h"
+#include "service_custom/Human.h"
 // %EndTag(MSG_HEADER)%
 
-#include <iostream>
-using namespace std;
+bool calc_bmi(service_custom::Human::Request  &req,
+              service_custom::Human::Response &res)
+{
+  res.bmi = req.weight / (req.height/100.0) / (req.height/100.0);
+  ROS_INFO("request: name: %s height: %d weight: %.2f",
+    req.name.c_str(), req.height, req.weight);
+  ROS_INFO("sending back response: bmi = %.2f", res.bmi);
+  return true;
+}
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -51,7 +58,7 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
 // %Tag(INIT)%
-  ros::init(argc, argv, "bmi_talker");
+  ros::init(argc, argv, "bmi_server");
 // %EndTag(INIT)%
 
   /**
@@ -64,79 +71,17 @@ int main(int argc, char **argv)
 // %EndTag(NODEHANDLE)%
 
   /**
-   * The advertise() function is how you tell ROS that you want to
-   * publish on a given topic name. This invokes a call to the ROS
-   * master node, which keeps a registry of who is publishing and who
-   * is subscribing. After this advertise() call is made, the master
-   * node will notify anyone who is trying to subscribe to this topic name,
-   * and they will in turn negotiate a peer-to-peer connection with this
-   * node.  advertise() returns a Publisher object which allows you to
-   * publish messages on that topic through a call to publish().  Once
-   * all copies of the returned Publisher object are destroyed, the topic
-   * will be automatically unadvertised.
-   *
-   * The second parameter to advertise() is the size of the message queue
-   * used for publishing messages.  If messages are published more quickly
-   * than we can send them, the number here specifies how many messages to
-   * buffer up before throwing some away.
+   * The advertiseService() function
    */
-// %Tag(PUBLISHER)%
-  ros::Publisher chatter_pub = n.advertise<pubsub_custom::Human>("chatter", 1000);
-// %EndTag(PUBLISHER)%
+// %Tag(SERVICESERVER)%
+  ros::ServiceServer service = n.advertiseService("human_info", calc_bmi);
+// %EndTag(SERVICESERVER)%
 
-// %Tag(LOOP_RATE)%
-  ros::Rate loop_rate(10);
-// %EndTag(LOOP_RATE)%
+  ROS_INFO("Ready to calc human's BMI.");
 
-  /**
-   * A count of how many messages we have sent. This is used to create
-   * a unique string for each message.
-   */
-// %Tag(ROS_OK)%
-  int count = 0;
-  while (ros::ok())
-  {
-// %EndTag(ROS_OK)%
-    /**
-     * This is a message object. You stuff it with data, and then publish it.
-     */
-// %Tag(FILL_MESSAGE)%
-    pubsub_custom::Human msg;
-
-    cout << "Enter Name [str]: " << endl;
-    cin >> msg.name;
-    cout << "Enter Height [int/cm]: " << endl;
-    cin >> msg.height;
-    cout << "Enter Weight [float/kg]: " << endl;
-    cin >> msg.weight;
-    msg.id = count;
-// %EndTag(FILL_MESSAGE)%
-
-// %Tag(ROSCONSOLE)%
-    ROS_INFO("[%02d] name: %s height: %d weight: %.2f", 
-      msg.id, msg.name.c_str(), msg.height, msg.weight);
-// %EndTag(ROSCONSOLE)%
-
-    /**
-     * The publish() function is how you send messages. The parameter
-     * is the message object. The type of this object must agree with the type
-     * given as a template parameter to the advertise<>() call, as was done
-     * in the constructor above.
-     */
-// %Tag(PUBLISH)%
-    chatter_pub.publish(msg);
-// %EndTag(PUBLISH)%
-
-// %Tag(SPINONCE)%
-    ros::spinOnce();
-// %EndTag(SPINONCE)%
-
-// %Tag(RATE_SLEEP)%
-    loop_rate.sleep();
-// %EndTag(RATE_SLEEP)%
-    ++count;
-  }
-
+// %Tag(SPIN)%
+  ros::spin();
+// %EndTag(SPIN)%
 
   return 0;
 }
