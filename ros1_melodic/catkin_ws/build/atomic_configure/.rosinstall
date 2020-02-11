@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/takase/ros_study/ros1_melodic/catkin_ws/devel/setup.sh

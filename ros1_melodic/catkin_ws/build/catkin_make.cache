@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/takase/ros_study/ros1_melodic/catkin_ws/devel -DCMAKE_INSTALL_PREFIX=/home/takase/ros_study/ros1_melodic/catkin_ws/install -G Unix Makefiles
