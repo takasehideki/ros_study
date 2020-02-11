@@ -135,6 +135,8 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/pubsub_custom_node.cpp)
 add_executable(bmi_talker src/talker.cpp)
 add_executable(bmi_listener src/listener.cpp)
+add_dependencies(bmi_talker ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(bmi_listener ${PROJECT_NAME}_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
