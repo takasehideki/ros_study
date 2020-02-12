@@ -8,3 +8,4 @@
 - `2-6`: human型にidを追加
 - `2-7`: service_customパッケージの作成
 - `2-8`: service_customパッケージの実装
+- `2-9`: param_commパッケージの実装
