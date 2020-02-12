@@ -8,7 +8,7 @@ project(service_custom)
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
 find_package(catkin REQUIRED COMPONENTS
-  genmsg
+  message_generation
   roscpp
 )
 
@@ -102,8 +102,7 @@ generate_messages(
 catkin_package(
 #  INCLUDE_DIRS include
 #  LIBRARIES service_custom
-#  CATKIN_DEPENDS genmsg roscpp
-#  DEPENDS system_lib
+#  CATKIN_DEPENDS message_generation roscpp std_msgs
 )
 
 ###########
@@ -133,6 +132,8 @@ include_directories(
 # add_executable(${PROJECT_NAME}_node src/service_custom_node.cpp)
 add_executable(bmi_server src/server.cpp)
 add_executable(bmi_client src/client.cpp)
+add_dependencies(bmi_server ${PROJECT_NAME}_generate_messages_cpp)
+add_dependencies(bmi_client ${PROJECT_NAME}_generate_messages_cpp)
 
 ## Rename C++ executable without prefix
 ## The above recommended prefix causes long target names, the following renames the
@@ -165,11 +166,18 @@ target_link_libraries(bmi_client ${catkin_LIBRARIES})
 #   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 # )
 
-## Mark executables and/or libraries for installation
-# install(TARGETS ${PROJECT_NAME} ${PROJECT_NAME}_node
+## Mark executables for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_executables.html
+# install(TARGETS ${PROJECT_NAME}_node
+#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+# )
+
+## Mark libraries for installation
+## See http://docs.ros.org/melodic/api/catkin/html/howto/format1/building_libraries.html
+# install(TARGETS ${PROJECT_NAME}
 #   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
 #   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
-#   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+#   RUNTIME DESTINATION ${CATKIN_GLOBAL_BIN_DESTINATION}
 # )
 
 ## Mark cpp header files for installation
