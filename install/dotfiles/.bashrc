@@ -116,8 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias vim='gvim'
-
 ## ROS environment
 function ros1setup() {
   export CHOOSE_ROS_DISTRO=melodic
@@ -137,10 +135,11 @@ alias ros2setup=ros2setup
 function tb3setup() {
   export CHOOSE_ROS_DISTRO=dashing
   source /opt/ros/${CHOOSE_ROS_DISTRO}/setup.bash
-  source ~/ros2/turtlebot3_ws/install/local_setup.bash
+  source ~/turtlebot3_ws/install/local_setup.bash
   # Add gazebo model path
   export GAZEBO_MODEL_PATH=$GAZEBO_MODEL_PATH:~/turtlebot3_ws/src/turtlebot3/turtlebot3_simulations/turtlebot3_gazebo/models
   export TURTLEBOT3_MODEL=burger
 }
 alias tb3setup=tb3setup
 
+#alias vim='gvim'
