@@ -9,3 +9,4 @@
 - `2-7`: service_customパッケージの作成
 - `2-8`: service_customパッケージの実装
 - `2-9`: param_commパッケージの実装
+- `2-p`: pubsub_topic_pyパッケージ（Python実装）
