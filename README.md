@@ -28,8 +28,9 @@ $ git clone https://github.com/takasehideki/ros_study.git
   - `2-6`: human型にidを追加（演習P.36）
   - `2-7`: service_customパッケージの作成
   - `2-8`: service_customパッケージの実装
-  - `2-9`: service_customのroslaunch実行
+  - `2-9`: param_commパッケージの実装
   - `2-p`: pubsub_topic_pyパッケージ（Python実装）
+  - `2-l`: service_customのroslaunch実行
 
 - `4`: 「4. ROS 2によるプログラミング」実習の[ソースコード等](./ros2_dashing)
   - `4-1`: ワークスペースの設定

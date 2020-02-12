@@ -44,8 +44,8 @@ $ rosdep update
 
 ## 環境設定（非推奨）
 
-公式ページでの解説では，ここでROSの環境変数を.bashrcに追加することが推奨されています．しかし，複数のROS Distribution，特にROS 2とROS 1を同一PCで使い分けする際には，本項目を設定させることは避けたほうがよいです．
-ひとまず環境設定の方法は記載しておきます．
+公式ページでの解説では，ここでROSの環境変数を.bashrcに追加することが推奨されています．しかし，複数のROS Distribution，特にROS 2とROS 1を同一PCで使い分けする際には，本項目を設定させることは避けたほうがよいです．  
+本実習では `ros1setup` というalias関数を [.bashrc](./dotfiles/.bashrc) に設けてあります．ひとま公式ページで紹介されている環境設定の方法は記載しておきます．
 
 ```bash
 $ echo "source /opt/ros/melodic/setup.bash" >> ~/.bashrc
@@ -65,7 +65,7 @@ $ sudo apt install python-rosinstall python-rosinstall-generator python-wstool b
 下記のコマンドを実行してエラー無く動作できれば，ROS 1の導入は問題なく完了しています．
 
 ```bash
-$ source /opt/ros/melodic/setup.bash
+$ ros1setup
 $ roscore & sleep 1 ; rosrun roscpp_tutorials talker 
 ```
 
