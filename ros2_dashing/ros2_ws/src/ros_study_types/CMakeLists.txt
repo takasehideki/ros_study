@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(service_custom)
+project(ros_study_types)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,35 +17,17 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(service_custom REQUIRED)
 
-set(srv_files
-  "srv/Human.srv"
+set(msg_files
+  "msg/Human.msg"
 )
 
 rosidl_generate_interfaces(${PROJECT_NAME}
-  ${srv_files}
+  ${msg_files}
 )
 
 ament_export_dependencies(rosidl_default_runtime)
-
-add_executable(bmi_server src/server.cpp)
-ament_target_dependencies(bmi_server rclcpp service_custom)
-add_executable(bmi_client src/client.cpp)
-ament_target_dependencies(bmi_client rclcpp service_custom)
-
-install(TARGETS
-  bmi_server
-  bmi_client
-  DESTINATION lib/${PROJECT_NAME}
-)
-
-install(DIRECTORY
-  launch
-  DESTINATION share/${PROJECT_NAME}/
-)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

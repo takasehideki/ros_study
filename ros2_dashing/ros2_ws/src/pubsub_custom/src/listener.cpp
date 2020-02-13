@@ -27,7 +27,7 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-#include "pubsub_custom/msg/human.hpp"
+#include "ros_study_types/msg/human.hpp"
 
 rclcpp::Node::SharedPtr n = nullptr;
 
@@ -35,10 +35,10 @@ rclcpp::Node::SharedPtr n = nullptr;
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 // %Tag(CALLBACK)%
-void chatterCallback(const pubsub_custom::msg::Human::SharedPtr msg)
+void chatterCallback(const ros_study_types::msg::Human::SharedPtr msg)
 {
   float bmi = msg->weight / (msg->height/100.0) / (msg->height/100.0);
-  RCLCPP_INFO(n->get_logger(), "%s's BMI is %.2f", msg->name.c_str(), bmi);
+  RCLCPP_INFO(n->get_logger(), "[%02d] %s's BMI is %.2f", msg->id, msg->name.c_str(), bmi);
 }
 // %EndTag(CALLBACK)%
 
@@ -79,7 +79,7 @@ int main(int argc, char **argv)
    * away the oldest ones.
    */
 // %Tag(SUBSCRIBER)%
-  auto sub = n->create_subscription<pubsub_custom::msg::Human>("chatter", 1000, chatterCallback);
+  auto sub = n->create_subscription<ros_study_types::msg::Human>("chatter", 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
 
   /**
