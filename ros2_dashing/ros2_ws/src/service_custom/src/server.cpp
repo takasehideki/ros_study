@@ -26,20 +26,24 @@
  */
 // %Tag(FULLTEXT)%
 // %Tag(ROS_HEADER)%
-#include "ros/ros.h"
+#include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "service_custom/Human.h"
+#include "ros_study_types/srv/human.hpp"
 // %EndTag(MSG_HEADER)%
 
-bool calc_bmi(service_custom::Human::Request  &req,
-              service_custom::Human::Response &res)
+rclcpp::Node::SharedPtr n = nullptr;
+
+void calc_bmi(
+  const std::shared_ptr<rmw_request_id_t> req_header,
+  const std::shared_ptr<ros_study_types::srv::Human::Request>  req,
+  const std::shared_ptr<ros_study_types::srv::Human::Response> res)
 {
-  res.bmi = req.weight / (req.height/100.0) / (req.height/100.0);
-  ROS_INFO("request: name: %s height: %d weight: %.2f",
-    req.name.c_str(), req.height, req.weight);
-  ROS_INFO("sending back response: bmi = %.2f", res.bmi);
-  return true;
+  (void)req_header;
+  res->bmi = req->weight / (req->height/100.0) / (req->height/100.0);
+  RCLCPP_INFO(n->get_logger(), "request: name: %s height: %d weight: %.2f",
+    req->name.c_str(), req->height, req->weight);
+  RCLCPP_INFO(n->get_logger(), "sending back response: bmi = %.2f", res->bmi);
 }
 
 /**
@@ -58,7 +62,7 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
 // %Tag(INIT)%
-  ros::init(argc, argv, "bmi_server");
+  rclcpp::init(argc, argv);
 // %EndTag(INIT)%
 
   /**
@@ -67,21 +71,24 @@ int main(int argc, char **argv)
    * NodeHandle destructed will close down the node.
    */
 // %Tag(NODEHANDLE)%
-  ros::NodeHandle n;
+  n = rclcpp::Node::make_shared("bmi_server");
 // %EndTag(NODEHANDLE)%
 
   /**
    * The advertiseService() function
    */
 // %Tag(SERVICESERVER)%
-  ros::ServiceServer service = n.advertiseService("human_info", calc_bmi);
+  auto service = n->create_service<ros_study_types::srv::Human>("human_info", calc_bmi);
 // %EndTag(SERVICESERVER)%
 
-  ROS_INFO("Ready to calc human's BMI.");
+  RCLCPP_INFO(n->get_logger(), "Ready to calc human's BMI.");
 
 // %Tag(SPIN)%
-  ros::spin();
+  rclcpp::spin(n);
 // %EndTag(SPIN)%
+
+  rclcpp::shutdown();
+  n = nullptr;
 
   return 0;
 }

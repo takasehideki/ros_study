@@ -26,8 +26,10 @@
  */
 
 // %Tag(FULLTEXT)%
-#include "ros/ros.h"
-#include "service_custom/Human.h"
+#include "rclcpp/rclcpp.hpp"
+#include "ros_study_types/srv/human.hpp"
+#include <chrono>
+using namespace std::chrono_literals;
 
 int main(int argc, char **argv)
 {
@@ -41,43 +43,55 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  ros::init(argc, argv, "bmi_client");
-
-  if (argc != 4)
-  {
-    ROS_INFO("usage: bmi_clinent [Name(str)] [Height(uint/cm)] [Weight(float/kg)]");
-    return 1;
-  }
+  rclcpp::init(argc, argv);
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  ros::NodeHandle n;
+  auto n = rclcpp::Node::make_shared("bmi_client");
+
+  if (argc != 4)
+  {
+    RCLCPP_INFO(n->get_logger(), "usage: bmi_clinent [Name(str)] [Height(uint/cm)] [Weight(float/kg)]");
+    return 1;
+  }
 
   /**
    * The ServiceClient() call
    */
 // %Tag(SERVICECLIENT)%
-  ros::ServiceClient client = n.serviceClient<service_custom::Human>("human_info");
+  auto client = n->create_client<ros_study_types::srv::Human>("human_info");
 // %EndTag(SERVICECLIENT)%
 
-  service_custom::Human srv;
-  srv.request.name = argv[1];
-  srv.request.height = atoi(argv[2]);
-  srv.request.weight = atof(argv[3]);
+  while (!client->wait_for_service(1s)) {
+    if (!rclcpp::ok()) {
+      RCLCPP_ERROR(n->get_logger(), "client interrupted while waiting for service to appear.");
+      return 1;
+    }
+    RCLCPP_INFO(n->get_logger(), "waiting for service to appear...");
+  }
 
-  if (client.call(srv))
+  auto request = std::make_shared<ros_study_types::srv::Human::Request>();
+  request->name = argv[1];
+  request->height = atoi(argv[2]);
+  request->weight = atof(argv[3]);
+
+  auto response_future = client->async_send_request(request);
+  if (rclcpp::spin_until_future_complete(n, response_future) ==
+    rclcpp::executor::FutureReturnCode::SUCCESS)
   {
-    ROS_INFO("%s's BMI is %.2f", srv.request.name.c_str(), srv.response.bmi);
+    auto response = response_future.get();
+    RCLCPP_INFO(n->get_logger(), "%s's BMI is %.2f", request->name.c_str(), response->bmi);
   }
   else
   {
-    ROS_ERROR("Failed to call service human_info.");
+    RCLCPP_ERROR(n->get_logger(), "Failed to call service human_info.");
     return 1;
   }
 
+  rclcpp::shutdown();
   return 0;
 }
 // %EndTag(FULLTEXT)%
