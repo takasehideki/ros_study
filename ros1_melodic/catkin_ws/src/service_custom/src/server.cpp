@@ -36,7 +36,7 @@ bool calc_bmi(service_custom::Human::Request  &req,
               service_custom::Human::Response &res)
 {
   res.bmi = req.weight / (req.height/100.0) / (req.height/100.0);
-  ROS_INFO("request: name: %s height: %d weight: %.2f", 
+  ROS_INFO("request: name: %s height: %d weight: %.2f",
     req.name.c_str(), req.height, req.weight);
   ROS_INFO("sending back response: bmi = %.2f", res.bmi);
   return true;
