@@ -26,15 +26,13 @@
  */
 // %Tag(FULLTEXT)%
 // %Tag(ROS_HEADER)%
-#include "rclcpp/rclcpp.hpp"
+#include "ros/ros.h"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "std_msgs/msg/string.hpp"
+#include "std_msgs/String.h"
 // %EndTag(MSG_HEADER)%
 
-#include <iostream>
-#include <chrono>
-using namespace std::chrono_literals;
+#include <sstream>
 
 /**
  * This tutorial demonstrates simple sending of messages over the ROS system.
@@ -52,7 +50,7 @@ int main(int argc, char **argv)
    * part of the ROS system.
    */
 // %Tag(INIT)%
-  rclcpp::init(argc, argv);
+  ros::init(argc, argv, "talker");
 // %EndTag(INIT)%
 
   /**
@@ -61,7 +59,7 @@ int main(int argc, char **argv)
    * NodeHandle destructed will close down the node.
    */
 // %Tag(NODEHANDLE)%
-  auto n = rclcpp::Node::make_shared("talker");
+  ros::NodeHandle n;
 // %EndTag(NODEHANDLE)%
 
   /**
@@ -82,11 +80,11 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+  ros::Publisher chatter_pub = n.advertise<std_msgs::String>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
-  rclcpp::WallRate loop_rate(100ms);
+  ros::Rate loop_rate(10);
 // %EndTag(LOOP_RATE)%
 
   /**
@@ -94,15 +92,15 @@ int main(int argc, char **argv)
    * a unique string for each message.
    */
 // %Tag(ROS_OK)%
-  auto count = 0;
-  while (rclcpp::ok())
+  int count = 0;
+  while (ros::ok())
   {
 // %EndTag(ROS_OK)%
     /**
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    std_msgs::msg::String msg;
+    std_msgs::String msg;
 
     std::stringstream ss;
     ss << "hello world " << count;
@@ -110,7 +108,7 @@ int main(int argc, char **argv)
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
-    RCLCPP_INFO(n->get_logger(), "%s", msg.data.c_str());
+    ROS_INFO("%s", msg.data.c_str());
 // %EndTag(ROSCONSOLE)%
 
     /**
@@ -120,11 +118,11 @@ int main(int argc, char **argv)
      * in the constructor above.
      */
 // %Tag(PUBLISH)%
-    chatter_pub->publish(msg);
+    chatter_pub.publish(msg);
 // %EndTag(PUBLISH)%
 
 // %Tag(SPINONCE)%
-    rclcpp::spin_some(n);
+    ros::spinOnce();
 // %EndTag(SPINONCE)%
 
 // %Tag(RATE_SLEEP)%
@@ -133,7 +131,7 @@ int main(int argc, char **argv)
     ++count;
   }
 
-  rclcpp::shutdown();
+
   return 0;
 }
 // %EndTag(FULLTEXT)%

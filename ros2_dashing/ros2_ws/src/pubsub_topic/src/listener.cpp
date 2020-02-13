@@ -26,18 +26,16 @@
  */
 
 // %Tag(FULLTEXT)%
-#include "rclcpp/rclcpp.hpp"
-#include "std_msgs/msg/string.hpp"
-
-rclcpp::Node::SharedPtr n = nullptr;
+#include "ros/ros.h"
+#include "std_msgs/String.h"
 
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 // %Tag(CALLBACK)%
-void chatterCallback(const std_msgs::msg::String::SharedPtr msg)
+void chatterCallback(const std_msgs::String::ConstPtr& msg)
 {
-  RCLCPP_INFO(n->get_logger(), "I heard: [%s]", msg->data.c_str());
+  ROS_INFO("I heard: [%s]", msg->data.c_str());
 }
 // %EndTag(CALLBACK)%
 
@@ -53,14 +51,14 @@ int main(int argc, char **argv)
    * You must call one of the versions of ros::init() before using any other
    * part of the ROS system.
    */
-  rclcpp::init(argc, argv);
+  ros::init(argc, argv, "listener");
 
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  n = rclcpp::Node::make_shared("listener");
+  ros::NodeHandle n;
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
@@ -78,7 +76,7 @@ int main(int argc, char **argv)
    * away the oldest ones.
    */
 // %Tag(SUBSCRIBER)%
-  auto sub = n->create_subscription<std_msgs::msg::String>("chatter", 1000, chatterCallback);
+  ros::Subscriber sub = n.subscribe("chatter", 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
 
   /**
@@ -87,12 +85,9 @@ int main(int argc, char **argv)
    * will exit when Ctrl-C is pressed, or the node is shutdown by the master.
    */
 // %Tag(SPIN)%
-  rclcpp::spin(n);
+  ros::spin();
 // %EndTag(SPIN)%
 
-  rclcpp::shutdown();
-  sub = nullptr;
-  n = nullptr;
   return 0;
 }
 // %EndTag(FULLTEXT)%
