@@ -8,3 +8,4 @@
 - `4-6`: 独自定義型のメッセージの変更
 - `4-7`: 独自定義型のサービスの作成
 - `4-8`: service_customパッケージの実装
+- `4-l`: service_customのroslaunch実行
