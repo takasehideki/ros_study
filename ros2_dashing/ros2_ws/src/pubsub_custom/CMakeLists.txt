@@ -19,18 +19,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(ros_study_types REQUIRED)
-#find_package(rosidl_default_generators REQUIRED)
-#find_package(pubsub_custom REQUIRED)
-#
-#set(msg_files
-#  "msg/Human.msg"
-#)
-#
-#rosidl_generate_interfaces(${PROJECT_NAME}
-#  ${msg_files}
-#)
-#
-#ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(bmi_talker src/talker.cpp)
 ament_target_dependencies(bmi_talker rclcpp ros_study_types)

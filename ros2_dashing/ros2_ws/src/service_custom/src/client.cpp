@@ -27,7 +27,6 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-//#include "service_custom/srv/human.hpp"
 #include "ros_study_types/srv/human.hpp"
 #include <chrono>
 using namespace std::chrono_literals;
