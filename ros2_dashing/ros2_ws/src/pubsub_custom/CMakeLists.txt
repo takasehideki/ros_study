@@ -20,6 +20,17 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(ros_study_types REQUIRED)
 
+add_executable(bmi_talker src/talker.cpp)
+ament_target_dependencies(bmi_talker rclcpp ros_study_types)
+add_executable(bmi_listener src/listener.cpp)
+ament_target_dependencies(bmi_listener rclcpp ros_study_types)
+
+install(TARGETS
+  bmi_talker
+  bmi_listener
+  DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   # the following line skips the linter which checks for copyrights
