@@ -38,7 +38,7 @@ rclcpp::Node::SharedPtr n = nullptr;
 void chatterCallback(const ros_study_types::msg::Human::SharedPtr msg)
 {
   float bmi = msg->weight / (msg->height/100.0) / (msg->height/100.0);
-  RCLCPP_INFO(n->get_logger(), "%s's BMI is %.2f", msg->name.c_str(), bmi);
+  RCLCPP_INFO(n->get_logger(), "[%02d] %s's BMI is %.2f", msg->id, msg->name.c_str(), bmi);
 }
 // %EndTag(CALLBACK)%
 

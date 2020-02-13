@@ -110,11 +110,12 @@ int main(int argc, char **argv)
     std::cin >> msg.height;
     std::cout << "Enter Weight [float/kg]: " << std::endl;
     std::cin >> msg.weight;
+    msg.id = count;
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
     RCLCPP_INFO(n->get_logger(), "[%02d] name: %s height: %d weight: %.2f",
-      count, msg.name.c_str(), msg.height, msg.weight);
+      msg.id, msg.name.c_str(), msg.height, msg.weight);
 // %EndTag(FILL_MESSAGE)%
 
     /**
