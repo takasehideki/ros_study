@@ -8,7 +8,8 @@ ROS 2 dashing diademataのための各種ツールのインストール手順を
 
 ## colconのインストール
 
-ROS 2のビルドツールである`colcon`をインストールします．
+ROS 2のビルドツールである`colcon`をインストールします．  
+（ROS 2の標準インストール・パッケージに含まれるようになったようです）
 
 ```bash
 $ sudo apt install python3-colcon-common-extensions
@@ -52,6 +53,15 @@ Terminatorでは，下記のショートカットが有用です．
 ### エディタ
 
 ご自身で好みのエディタをインストールしましょう．
+
+Visual Studio CodeはROSのプラグイン（実験版）も利用できて便利です．
+
+```bash
+$ sudo snap install --classic code
+$ echo "export PATH=/snap/bin:${PATH}" >> ~/.bashrc
+$ source ~/.bashrc
+```
+
 私はVimが好きです．
 
 ```bash
