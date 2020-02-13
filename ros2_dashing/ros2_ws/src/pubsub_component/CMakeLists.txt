@@ -24,10 +24,18 @@ find_package(class_loader REQUIRED)
 include_directories(include)
 
 add_library(talker_component SHARED src/talker_component.cpp)
+add_library(listener_component SHARED src/listener_component.cpp)
 
 target_compile_definitions(talker_component PRIVATE "TALKER_BUILDING_DLL")
+target_compile_definitions(listener_component PRIVATE "LISTENER_BUILDING_DLL")
 
 ament_target_dependencies(talker_component
+  rclcpp
+  std_msgs
+  class_loader
+)
+
+ament_target_dependencies(listener_component
   rclcpp
   std_msgs
   class_loader
@@ -37,8 +45,13 @@ add_executable(talker src/talker.cpp)
 target_link_libraries(talker talker_component)
 ament_target_dependencies(talker rclcpp std_msgs)
 
+add_executable(listener src/listener.cpp)
+target_link_libraries(listener listener_component)
+ament_target_dependencies(listener rclcpp std_msgs)
+
 ament_export_include_directories(include)
 ament_export_libraries(talker_component)
+ament_export_libraries(listener_component)
 
 install(DIRECTORY
   include/pubsub_component
@@ -47,6 +60,7 @@ install(DIRECTORY
 
 install(TARGETS
   talker_component
+  listener_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION bin
@@ -54,6 +68,7 @@ install(TARGETS
 
 install(TARGETS
   talker
+  listener
   DESTINATION lib/${PROJECT_NAME}
 )
 
