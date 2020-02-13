@@ -116,8 +116,6 @@ if ! shopt -oq posix; then
   fi
 fi
 
-alias vim='gvim'
-
 ## ROS environment
 function ros1setup() {
   export CHOOSE_ROS_DISTRO=melodic
@@ -144,3 +142,4 @@ function tb3setup() {
 }
 alias tb3setup=tb3setup
 
+#alias vim='gvim'
