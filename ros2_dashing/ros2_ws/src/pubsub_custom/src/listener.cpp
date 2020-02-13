@@ -27,7 +27,7 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-#include "ros_study_types/msg/human.hpp"
+#include "std_msgs/msg/string.hpp"
 
 rclcpp::Node::SharedPtr n = nullptr;
 
@@ -35,10 +35,9 @@ rclcpp::Node::SharedPtr n = nullptr;
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
 // %Tag(CALLBACK)%
-void chatterCallback(const ros_study_types::msg::Human::SharedPtr msg)
+void chatterCallback(const std_msgs::msg::String::SharedPtr msg)
 {
-  float bmi = msg->weight / (msg->height/100.0) / (msg->height/100.0);
-  RCLCPP_INFO(n->get_logger(), "%s's BMI is %.2f", msg->name.c_str(), bmi);
+  RCLCPP_INFO(n->get_logger(), "I heard: [%s]", msg->data.c_str());
 }
 // %EndTag(CALLBACK)%
 
@@ -61,7 +60,7 @@ int main(int argc, char **argv)
    * The first NodeHandle constructed will fully initialize this node, and the last
    * NodeHandle destructed will close down the node.
    */
-  n = rclcpp::Node::make_shared("bmi_listener");
+  n = rclcpp::Node::make_shared("listener");
 
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
@@ -79,7 +78,7 @@ int main(int argc, char **argv)
    * away the oldest ones.
    */
 // %Tag(SUBSCRIBER)%
-  auto sub = n->create_subscription<ros_study_types::msg::Human>("chatter", 1000, chatterCallback);
+  auto sub = n->create_subscription<std_msgs::msg::String>("chatter", 1000, chatterCallback);
 // %EndTag(SUBSCRIBER)%
 
   /**
