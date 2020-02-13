@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(pubsub_custom)
+project(ros_study_types)
 
 # Default to C99
 if(NOT CMAKE_C_STANDARD)
@@ -17,9 +17,7 @@ endif()
 
 # find dependencies
 find_package(ament_cmake REQUIRED)
-find_package(rclcpp REQUIRED)
 find_package(rosidl_default_generators REQUIRED)
-find_package(pubsub_custom REQUIRED)
 
 set(msg_files
   "msg/Human.msg"
@@ -30,17 +28,6 @@ rosidl_generate_interfaces(${PROJECT_NAME}
 )
 
 ament_export_dependencies(rosidl_default_runtime)
-
-add_executable(bmi_talker src/talker.cpp)
-ament_target_dependencies(bmi_talker rclcpp pubsub_custom)
-add_executable(bmi_listener src/listener.cpp)
-ament_target_dependencies(bmi_listener rclcpp pubsub_custom)
-
-install(TARGETS
-  bmi_talker
-  bmi_listener
-  DESTINATION lib/${PROJECT_NAME}
-)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

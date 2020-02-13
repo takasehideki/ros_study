@@ -105,7 +105,7 @@ int main(int argc, char **argv)
     std_msgs::msg::String msg;
 
     std::stringstream ss;
-    ss << "hello world " << count;
+    ss << "hello world " << std::to_string(count);
     msg.data = ss.str();
 // %EndTag(FILL_MESSAGE)%
 
