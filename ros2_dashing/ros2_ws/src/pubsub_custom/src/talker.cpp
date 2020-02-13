@@ -29,7 +29,7 @@
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "std_msgs/msg/string.hpp"
+#include "ros_study_types/msg/human.hpp"
 // %EndTag(MSG_HEADER)%
 
 #include <iostream>
@@ -61,7 +61,7 @@ int main(int argc, char **argv)
    * NodeHandle destructed will close down the node.
    */
 // %Tag(NODEHANDLE)%
-  auto n = rclcpp::Node::make_shared("talker");
+  auto n = rclcpp::Node::make_shared("bmi_talker");
 // %EndTag(NODEHANDLE)%
 
   /**
@@ -82,7 +82,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+  auto chatter_pub = n->create_publisher<ros_study_types::msg::Human>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -102,16 +102,20 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    std_msgs::msg::String msg;
+    ros_study_types::msg::Human msg;
 
-    std::stringstream ss;
-    ss << "hello world " << std::to_string(count);
-    msg.data = ss.str();
+    std::cout << "Enter Name [str]: " << std::endl;
+    std::cin >> msg.name;
+    std::cout << "Enter Height [int/cm]: " << std::endl;
+    std::cin >> msg.height;
+    std::cout << "Enter Weight [float/kg]: " << std::endl;
+    std::cin >> msg.weight;
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
-    RCLCPP_INFO(n->get_logger(), "%s", msg.data.c_str());
-// %EndTag(ROSCONSOLE)%
+    RCLCPP_INFO(n->get_logger(), "[%02d] name: %s height: %d weight: %.2f",
+      count, msg.name.c_str(), msg.height, msg.weight);
+// %EndTag(FILL_MESSAGE)%
 
     /**
      * The publish() function is how you send messages. The parameter
