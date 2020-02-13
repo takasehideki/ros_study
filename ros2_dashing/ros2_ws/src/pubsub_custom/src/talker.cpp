@@ -29,11 +29,10 @@
 #include "rclcpp/rclcpp.hpp"
 // %EndTag(ROS_HEADER)%
 // %Tag(MSG_HEADER)%
-#include "pubsub_custom/msg/human.hpp"
+#include "ros_study_types/msg/human.hpp"
 // %EndTag(MSG_HEADER)%
 
 #include <iostream>
-using namespace std;
 #include <chrono>
 using namespace std::chrono_literals;
 
@@ -83,7 +82,7 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<pubsub_custom::msg::Human>("chatter", 1000);
+  auto chatter_pub = n->create_publisher<ros_study_types::msg::Human>("chatter", 1000);
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
@@ -103,20 +102,20 @@ int main(int argc, char **argv)
      * This is a message object. You stuff it with data, and then publish it.
      */
 // %Tag(FILL_MESSAGE)%
-    pubsub_custom::msg::Human msg;
+    ros_study_types::msg::Human msg;
 
-    cout << "Enter Name [str]: " <<endl;
-    cin >> msg.name;
-    cout << "Enter Height [int/cm]: " <<endl;
-    cin >> msg.height;
-    cout << "Enter Weight [float/kg]: " <<endl;
-    cin >> msg.weight;
+    std::cout << "Enter Name [str]: " << std::endl;
+    std::cin >> msg.name;
+    std::cout << "Enter Height [int/cm]: " << std::endl;
+    std::cin >> msg.height;
+    std::cout << "Enter Weight [float/kg]: " << std::endl;
+    std::cin >> msg.weight;
 // %EndTag(FILL_MESSAGE)%
 
 // %Tag(ROSCONSOLE)%
     RCLCPP_INFO(n->get_logger(), "[%02d] name: %s height: %d weight: %.2f",
       count, msg.name.c_str(), msg.height, msg.weight);
-// %EndTag(ROSCONSOLE)%
+// %EndTag(FILL_MESSAGE)%
 
     /**
      * The publish() function is how you send messages. The parameter
