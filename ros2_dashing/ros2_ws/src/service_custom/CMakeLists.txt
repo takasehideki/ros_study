@@ -19,18 +19,6 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(ros_study_types REQUIRED)
-#find_package(rosidl_default_generators REQUIRED)
-#find_package(service_custom REQUIRED)
-#
-#set(srv_files
-#  "srv/Human.srv"
-#)
-#
-#rosidl_generate_interfaces(${PROJECT_NAME}
-#  ${srv_files}
-#)
-#
-#ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(bmi_server src/server.cpp)
 ament_target_dependencies(bmi_server rclcpp ros_study_types)

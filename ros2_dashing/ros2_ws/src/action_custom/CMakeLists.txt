@@ -20,18 +20,6 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_action REQUIRED)
 find_package(ros_study_types REQUIRED)
-#find_package(rosidl_default_generators REQUIRED)
-#find_package(action_custom REQUIRED)
-#
-#set(action_files
-#  "action/Fibonacci.action"
-#)
-#
-#rosidl_generate_interfaces(${PROJECT_NAME}
-#  ${action_files}
-#)
-#
-#ament_export_dependencies(rosidl_default_runtime)
 
 add_executable(server src/server.cpp)
 ament_target_dependencies(server rclcpp rclcpp_action ros_study_types)
