@@ -38,9 +38,9 @@ Listener::Listener()
 : Node("listener")
 {
   sub = this->create_subscription<std_msgs::msg::String>(
-    "chatter", std::bind(&Listener::chatterCallback, this, std::placeholders::_1));
+    "chatter", 1000, std::bind(&Listener::chatterCallback, this, std::placeholders::_1));
 }
-  
+
 /**
  * This tutorial demonstrates simple receipt of messages over the ROS system.
  */
