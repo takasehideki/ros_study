@@ -82,7 +82,20 @@ int main(int argc, char **argv)
    * buffer up before throwing some away.
    */
 // %Tag(PUBLISHER)%
-  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+  //auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", 1000);
+
+  rclcpp::QoS qos(rclcpp::KeepLast(10), rmw_qos_profile_sensor_data);
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", qos);
+  /*
+  // ok
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", rclcpp::SensorDataQoS());
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", rclcpp::ServicesQoS());
+  
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", rclcpp::QoS(100));
+
+  rclcpp::QoS qos(rclcpp::KeepLast(7));
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", qos);
+  */
 // %EndTag(PUBLISHER)%
 
 // %Tag(LOOP_RATE)%
