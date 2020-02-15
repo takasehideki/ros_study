@@ -1,0 +1,5 @@
+-
+  ros1_package_name: 'pubsub_custom'
+  ros1_message_name: 'Human'
+  ros2_package_name: 'ros_study_types'
+  ros2_message_name: 'Human'

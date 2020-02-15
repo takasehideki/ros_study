@@ -37,6 +37,13 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   ${action_files}
 )
 
+install(
+  FILES pubsub_custom.yaml
+  DESTINATION share/${PROJECT_NAME}
+)
+
+ament_export_dependencies(rosidl_default_runtime)
+
 ament_export_dependencies(rosidl_default_runtime)
 
 if(BUILD_TESTING)
