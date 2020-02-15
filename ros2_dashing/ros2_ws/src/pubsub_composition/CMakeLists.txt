@@ -26,8 +26,15 @@ ament_target_dependencies(talker_comp
   pubsub_component
 )
 
+add_executable(listener_comp src/listener.cpp)
+ament_target_dependencies(listener_comp
+  rclcpp
+  pubsub_component
+)
+
 install(TARGETS
   talker_comp
+  listener_comp
   DESTINATION lib/${PROJECT_NAME}
 )
 

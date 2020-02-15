@@ -27,29 +27,32 @@
 
 // %Tag(FULLTEXT)%
 #include "rclcpp/rclcpp.hpp"
-
 #include "pubsub_component/listener_component.hpp"
-#include "class_loader/register_macro.hpp"
 
-namespace pubsub_component
+int main(int argc, char **argv)
 {
+  /**
+   * The ros::init() function needs to see argc and argv so that it can perform
+   * any ROS arguments and name remapping that were provided at the command line.
+   * For programmatic remappings you can use a different version of init() which takes
+   * remappings directly, but for most command-line programs, passing argc and argv is
+   * the easiest way to do it.  The third argument to init() is the name of the node.
+   *
+   * You must call one of the versions of ros::init() before using any other
+   * part of the ROS system.
+   */
+  rclcpp::init(argc, argv);
 
-Listener::Listener()
-: Node("listener")
-{
-  sub = this->create_subscription<std_msgs::msg::String>(
-    "chatter", 1000, std::bind(&Listener::chatterCallback, this, std::placeholders::_1));
+  rclcpp::executors::SingleThreadedExecutor exec;
+
+  auto listener = std::make_shared<pubsub_component::Listener>();
+  exec.add_node(listener);
+
+// %Tag(SPIN)%
+  exec.spin();
+// %EndTag(SPIN)%
+
+  rclcpp::shutdown();
+  return 0;
 }
-
-/**
- * This tutorial demonstrates simple receipt of messages over the ROS system.
- */
-// %Tag(CALLBACK)%
-void Listener::chatterCallback(const std_msgs::msg::String::SharedPtr msg)
-{
-  RCLCPP_INFO(this->get_logger(), "I heard: [%s]", msg->data.c_str());
-}
-// %EndTag(CALLBACK)%
-
-} // namespace pubsub_component
 // %EndTag(FULLTEXT)%
