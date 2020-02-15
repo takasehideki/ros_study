@@ -95,6 +95,15 @@ int main(int argc, char **argv)
 
   rclcpp::QoS qos(rclcpp::KeepLast(7));
   auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", qos);
+
+  rmw_qos_profile_t qos_profile = rmw_qos_profile_sensor_data;
+  auto qos = rclcpp::QoS(
+      rclcpp::QoSInitialization(
+        qos_profile.history,
+        qos_profile.depth
+        ),
+      qos_profile);
+  auto chatter_pub = n->create_publisher<std_msgs::msg::String>("chatter", qos);
   */
 // %EndTag(PUBLISHER)%
 
