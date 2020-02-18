@@ -1,4 +1,4 @@
-# (オプション) ROS 2用TurtleBot3パッケージのインストール
+# ROS 2用TurtleBot3パッケージのインストール
 
 ROS公式の研究・教育用ロボット組立キットであるTurtleBot3について，ROS 2用のパッケージをインストールします．本内容は実習項目としては扱いませんが，手元の環境で再現されたい場合にはご利用ください．
 [公式ページの情報](http://emanual.robotis.com/docs/en/platform/turtlebot3/ros2/)もご参照ください．
@@ -68,5 +68,22 @@ $ colcon build --symlink-install
 ```
 
 ROS 2用のTurtleBot3パッケージの導入手順は以上です．
+
+### 追記
+
+Gazebo用パッケージ，Cartographer (SLAM)とNavigation2のパッケージをインストールします．
+
+
+```bash
+$ sudo apt install ros-dashing-gazebo-*
+# Install Cartographer
+$ sudo apt install ros-dashing-cartographer
+$ sudo apt install ros-dashing-cartographer-ros
+# Install Navigation2
+$ sudo apt install ros-dashing-navigation2
+$ sudo apt install ros-dashing-nav2-bringup
+# Install vcstool
+$ sudo apt install python3-vcstool
+```
 
 [目次に戻る](./README.md)
